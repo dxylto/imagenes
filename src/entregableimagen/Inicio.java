@@ -5,6 +5,7 @@
 //NICOLA  BODNAR YUZYFISHYN 
 //DAYLTO BRAVO TINTE
 package entregableimagen;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,6 +15,7 @@ import java.util.Scanner;
  * @author daylto
  */
 public class Inicio {
+
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
@@ -21,24 +23,23 @@ public class Inicio {
         String opcion = "";
         String nombreFichero = "";
         boolean cargaCorrecta = false;
-        do{
+        do {
             System.out.println("Introduce el nombre y ruta del fichero: ");
             nombreFichero = sc.nextLine();
-            try{
+            try {
                 pgm = new PGMFileDouble(nombreFichero);
                 cargaCorrecta = true;
-            } 
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Formato del fichero incorrecto");
-            }            
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Se ha producido un error inesperado al abrir el fichero");
             }
-        }while(!cargaCorrecta); 
-            
+        } while (!cargaCorrecta);
+
         menu(pgm);
     }
-    public static void menu(PGMFileDouble pgm) throws IOException { //arreglar menu
+
+    public static void menu(PGMFileDouble pgm) throws IOException {
         String opcion;
         do {
             opciones();
@@ -46,22 +47,20 @@ public class Inicio {
             opcion = sc.nextLine();
             if (!opcion.equalsIgnoreCase("S")) {
                 if (opcion.equals("1")) {
-                    pgm.girarIzquierda();
+                    pgm.filtroGirarIzquierda();
                 } else if (opcion.equals("2")) {
-                    pgm.girarDerecha();
+                    pgm.filtroGirarDerecha();
                 } else if (opcion.equals("3")) {
-                    pgm.girarHorizontal();
+                    pgm.filtroFlipHorizontal();
                 } else if (opcion.equals("4")) {
-                    pgm.girarVertical();
+                    pgm.filtroFlipVertical();
                 } else if (opcion.equals("5")) {
-                    pgm.filtroNegativo();
-                } 
-                else if (opcion.equals("7")){
+                    pgm.filtroObtenerNegativo();
+                } else if (opcion.equals("7")) {
                     pgm.imprimir();
-                }
-                else if (opcion.equalsIgnoreCase("G")) {
+                } else if (opcion.equalsIgnoreCase("G")) {
                     pgm.guardarFichero();
-                }               
+                }
             }
 
         } while (!opcion.equalsIgnoreCase("S"));
@@ -75,12 +74,9 @@ public class Inicio {
                 + "4. Para aplicar filtro flip vertical." + "\n"
                 + "5. Para aplicar filtro obtener negativo." + "\n"
                 + "6. Para aplicar filtro obtener filtro caja." + "\n"
-                + "7. Para imprimir"+"\n"
+                + "7. Para imprimir" + "\n"
                 + "G. Para guardar fichero. Por favor, introduce el nombre del fichero donde quieres guardar la imagen." + "\n"
                 + "S. Para salir.");
     }
 
-    
-
-    
 }
