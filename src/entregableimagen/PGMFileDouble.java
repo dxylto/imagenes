@@ -43,12 +43,13 @@ public class PGMFileDouble {
                     this.pixeles[i][j] = scFile.nextInt();
                 }
             }
-//            for (int i = 0; i < alto; i++) {
-//                for (int j = 0; j < ancho; j++) {
-//                    System.out.print(pixeles[i][j]+ " ");
-//                }
-//                System.out.println();
-//            }
+            if(this.blancoAbs != 255){
+                for (int i = 0; i < this.alto; i++) {
+                    for (int j = 0; j < this.ancho; j++) {
+                        this.pixeles[i][j] *= 255 /this.blancoAbs;
+                    }
+                }
+            }
         while(scFile.hasNextLine()){
          String  linea = scFile.nextLine();         
         }
@@ -59,27 +60,19 @@ public class PGMFileDouble {
 
         }       
     }
-    
-    public void filtroCaja() {
-
-    }
-    public void girarIzquierda()  { //ARREGLADO
-        
-        double[][] imagenIzq = new double[this.ancho][this.alto]; // ancho, alto y pixeles los saco de las variables que tenemos en el la clase PGMFileDouble.java
+    public void girarIzquierda()  { 
+        double[][] imagenIzq = new double[this.ancho][this.alto]; 
         for (int i = 0; i < this.ancho; i++) {       
             for (int j = 0; j < this.alto; j++) {
                imagenIzq[i][j] =  this.pixeles[j][this.ancho - i -1]; // con esto hacemos que la imagen gire a la izquierda, en el caso de girar a la derecha lo haremos al reves. ya lo veremos
             }
         }
-        
         int tmp = this.ancho;
         this.ancho = this.alto; 
         this.alto = tmp;
-       // this.pixeles = new double[this.alto][this.ancho];
-        this.pixeles = imagenIzq; 
+        this.pixeles = imagenIzq;       
     }
-    public void girarDerecha() { //ARREGLADO
-        
+    public void girarDerecha() {       
         double[][] imagenDrch = new double[this.ancho][this.alto];         
         for (int i = 0; i < this.ancho; i++) {
             for (int j = 0; j < this.alto; j++) {    
@@ -89,43 +82,40 @@ public class PGMFileDouble {
         int tmp = this.ancho;
         this.ancho = this.alto;
         this.alto = tmp;
-       // this.pixeles = new double[this.alto][this.ancho];
-        this.pixeles = imagenDrch; // esto si queremos girar la imagen original ( creo que no)
+        this.pixeles = imagenDrch; 
     }
-
-    
-
     public void girarHorizontal()  {
         double horizontal[][] = new double[this.alto][this.ancho];  
         int k;
+        double numeroFinal = 0.0;
         for (int i = 0; i < this.alto; i++) {
             k = 0;
-            for (int j = this.ancho -1; j > 0; j--) {
+            for (int j = this.ancho -1; j >= 0; j--) {
+                numeroFinal = this.pixeles[i][0];
                 horizontal[i][k] = this.pixeles[i][j];
                 k++;
             }
         }
-        //this.pixeles = new double[this.alto][this.ancho];
+        
         this.pixeles = horizontal;
     }
 
     public void girarVertical() {
         double[][] vertical = new double[this.alto][this.ancho];
-        
         int k = 0, n = 0;
-        for (int i = this.alto -1; i > 0; i--) {
+        for (int i = this.alto -1; i >= 0; i--) {
             n = 0;
-            for (int j = this.ancho -1; j > 0; j--) {
+            for (int j = this.ancho -1 ; j >= 0; j--) {
+                
                 vertical[k][n] = this.pixeles[i][j];
                 n++;
             }
             k++;
         }
-        //this.pixeles = new double[this.alto][this.ancho];
         this.pixeles = vertical;
     }
 
-    public void filtroNegativo() {   //PREGUNTAR A JAIME        
+    public void filtroNegativo() {         
         for (int i = 0; i < alto; i++) {
              for (int j = 0; j < ancho; j++) {
                 this.pixeles[i][j] = this.blancoAbs -pixeles[i][j];
@@ -137,18 +127,30 @@ public class PGMFileDouble {
         System.out.println("Ejemplo --> home/usr/Escritorio/nombreFichero O ./nombreFichero");
         String nombreArch = sc.nextLine();
         int num;
-       FileWriter wt = null;
+        FileWriter wt = null;
 
         try{
             wt = new FileWriter(nombreArch);
+            wt.write("P2"+"\n");
+            wt.write(this.lineaImg+"\n");
+            wt.write(this.ancho+" "+this.alto+"\n");
+            wt.write(255+"\n");
             for (int i = 0; i < alto ; i++) {
                 for (int j = 0; j < ancho; j++) {                   
-                    wt.write((int) pixeles[i][j]);
+                    wt.write((int) pixeles[i][j] + " ");
+                  
                 }
+                wt.write("\n");
             }
             
         }catch(IOException e){
             System.out.println("error");
+        }finally{
+            try{
+                if(wt!= null) wt.close();
+            }catch(IOException e){
+                System.out.println("Error en el cierre del fichero");
+            }
         }
     }
     public void imprimir(){

@@ -29,10 +29,7 @@ public class Inicio {
             } 
             catch (NumberFormatException e) {
                 System.out.println("Formato del fichero incorrecto");
-            } 
-            //catch(FileNotFoundException e) {
-//                System.out.println("No se ha encontrado el fichero");
-//            } 
+            }            
             catch (Exception e) {
                 System.out.println("Se ha producido un error inesperado al abrir el fichero");
             }
