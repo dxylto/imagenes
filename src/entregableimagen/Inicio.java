@@ -6,6 +6,7 @@
 //DAYLTO BRAVO TINTE
 package entregableimagen;
 
+//import static entregableimagen.PGMFileDouble.sc;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -35,13 +36,12 @@ public class Inicio {
                 System.out.println("Se ha producido un error inesperado al abrir el fichero");
             }
         } while (!cargaCorrecta);
-
         menu(pgm);
     }
-
     public static void menu(PGMFileDouble pgm) throws IOException {
         String opcion;
         do {
+            System.out.println("-------------------------");
             opciones();
             System.out.println("-------------------------\nEscoje una opcion: ");
             opcion = sc.nextLine();
@@ -59,7 +59,10 @@ public class Inicio {
                 } else if (opcion.equals("7")) {
                     pgm.imprimir();
                 } else if (opcion.equalsIgnoreCase("G")) {
-                    pgm.guardarFichero();
+                    System.out.println("Escriba ruta y nombre del nuevo fichero: ");
+                    System.out.println("Ejemplo --> home/usr/Escritorio/nombreFichero O ./nombreFichero");
+                    String nombreArch = sc.nextLine();
+                    pgm.guardarFichero(nombreArch);
                 }
             }
 
@@ -73,9 +76,8 @@ public class Inicio {
                 + "3. Para aplicar filtro flip horizontal." + "\n"
                 + "4. Para aplicar filtro flip vertical." + "\n"
                 + "5. Para aplicar filtro obtener negativo." + "\n"
-                + "6. Para aplicar filtro obtener filtro caja." + "\n"
                 + "7. Para imprimir" + "\n"
-                + "G. Para guardar fichero. Por favor, introduce el nombre del fichero donde quieres guardar la imagen." + "\n"
+                + "G. Para guardar fichero." + "\n"
                 + "S. Para salir.");
     }
 

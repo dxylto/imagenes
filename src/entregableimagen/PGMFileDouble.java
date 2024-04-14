@@ -61,10 +61,8 @@ public class PGMFileDouble {
             if (scFile != null) {
                 scFile.close();
             }
-
         }
     }
-
     public void filtroGirarIzquierda() {
         double[][] imagenIzq = new double[this.ancho][this.alto];
         for (int i = 0; i < this.ancho; i++) {
@@ -128,13 +126,9 @@ public class PGMFileDouble {
         }
     }
 
-    public void guardarFichero() {
-        System.out.println("Escriba ruta y nombre del nuevo fichero: ");
-        System.out.println("Ejemplo --> home/usr/Escritorio/nombreFichero O ./nombreFichero");
-        String nombreArch = sc.nextLine();
+    public void guardarFichero(String nombreArch) {
         int num;
         FileWriter wt = null;
-
         try {
             wt = new FileWriter(nombreArch);
             wt.write("P2" + "\n");
@@ -148,7 +142,6 @@ public class PGMFileDouble {
                 }
                 wt.write("\n");
             }
-
         } catch (IOException e) {
             System.out.println("error");
         } finally {
