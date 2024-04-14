@@ -16,96 +16,93 @@ import java.util.Scanner;
  * @author daylto
  */
 public class PGMFileDouble {
-    private String ruta;
+   private String ruta;
     private int alto;
     private int ancho;
     private double blancoAbs;
-    private double [][] pixeles;    
+    private double [][] pixeles; 
+    private String lineaImg;
     static Scanner sc = new Scanner(System.in);
-    public  PGMFileDouble(String ruta) {
-        try(BufferedReader rd = new BufferedReader(new FileReader(ruta))){
-        String numero = rd.readLine();
-        if (!numero.equals("P2")) {
+    public PGMFileDouble(String ruta) {
+        Scanner scFile = null;
+        File f;
+        
+        try {
+            scFile = new Scanner(f = new File(ruta));
+            String numero = scFile.nextLine();
+            if (!numero.equals("P2")) {
                 throw new IOException("No es un archivo PGM válido.");
             }
-        String linea = rd.readLine();
-        String dimensiones = rd.readLine();
-        String arr [] = dimensiones.split(" ");
-        this.ancho = Integer.parseInt(arr[0]);
-        this.alto = Integer.parseInt(arr[1]);
-        int it = 0;
-        this.blancoAbs = Integer.parseInt(rd.readLine());  
-        //String linea;   
-        double valor;
-        double [] pixel = new double[this.ancho*this.alto];
-        this.pixeles = new double[this.alto][this.ancho];
-        while((linea = rd.readLine()) != null){
-              arr = linea.split(" ");
-              for (int i = 0; i < arr.length; i++) {
-                if(!arr[i].isEmpty()){
-                    valor = Double.parseDouble(arr[i]);               
-                    pixel[it] = valor;
-                    it++;
+            this.lineaImg = scFile.nextLine();
+            this.ancho = scFile.nextInt();
+            this.alto = scFile.nextInt();
+            this.blancoAbs = scFile.nextInt();
+            this.pixeles = new double[this.alto][this.ancho];
+            for (int i = 0; i < this.alto; i++) {
+                for (int j = 0; j < this.ancho; j++) {
+                    this.pixeles[i][j] = scFile.nextInt();
                 }
-                System.out.println(pixel[it]);                
             }
+//            for (int i = 0; i < alto; i++) {
+//                for (int j = 0; j < ancho; j++) {
+//                    System.out.print(pixeles[i][j]+ " ");
+//                }
+//                System.out.println();
+//            }
+        while(scFile.hasNextLine()){
+         String  linea = scFile.nextLine();         
         }
-            System.out.println("-------------------------------------------------------");
-        rd.close();
-       int n = 0;
-            for (int i = 0; i < (pixel.length/this.ancho) ; i++) {
-                for (int j = 0; j < (pixel.length/this.alto); j++) {
-                    
-                    valor = pixel[it];
-                    System.out.print("valor ---> "+valor+"  pixel ---> "+pixel[it]);
-                    this.pixeles[i][j] = valor;
-                    it++;
-                }
-                System.out.println();
-            }
         }catch(IOException e){
-            System.out.println("error");          
-        }
+            System.out.println("error");
+        }finally{
+                if(scFile != null) scFile.close();
+
+        }       
     }
+    
     public void filtroCaja() {
 
     }
-    public void girarIzquierda()  { //ARREGLAR
-        int tmp;
-        tmp = this.ancho;
+    public void girarIzquierda()  { //ARREGLADO
+        
+        double[][] imagenIzq = new double[this.ancho][this.alto]; // ancho, alto y pixeles los saco de las variables que tenemos en el la clase PGMFileDouble.java
+        for (int i = 0; i < this.ancho; i++) {       
+            for (int j = 0; j < this.alto; j++) {
+               imagenIzq[i][j] =  this.pixeles[j][this.ancho - i -1]; // con esto hacemos que la imagen gire a la izquierda, en el caso de girar a la derecha lo haremos al reves. ya lo veremos
+            }
+        }
+        
+        int tmp = this.ancho;
         this.ancho = this.alto; 
         this.alto = tmp;
-        double[][] imagenIzq = new double[this.alto][this.ancho]; // ancho, alto y pixeles los saco de las variables que tenemos en el la clase PGMFileDouble.java
-        for (int i = 0; i < this.alto; i++) {       
-            for (int j = 0; j < this.ancho; j++) {
-               imagenIzq[i][j] =  this.pixeles[this.alto - j ][i]; // con esto hacemos que la imagen gire a la izquierda, en el caso de girar a la derecha lo haremos al reves. ya lo veremos
-            }
-        }
-        this.pixeles = new double[this.alto][this.ancho];
+       // this.pixeles = new double[this.alto][this.ancho];
         this.pixeles = imagenIzq; 
     }
-    public void girarDerecha() { //ARREGLAR
-        int tmp;
-        tmp = this.ancho;
+    public void girarDerecha() { //ARREGLADO
+        
+        double[][] imagenDrch = new double[this.ancho][this.alto];         
+        for (int i = 0; i < this.ancho; i++) {
+            for (int j = 0; j < this.alto; j++) {    
+               imagenDrch[i][j] = this.pixeles[this.alto - j - 1][i]; 
+            }
+        } 
+        int tmp = this.ancho;
         this.ancho = this.alto;
         this.alto = tmp;
-        double[][] imagenDrch = new double[this.alto][this.ancho];         
-        for (int i = 0; i < this.alto; i++) {
-            for (int j = 0; j < this.ancho; j++) {    
-               imagenDrch[this.alto - i - 1][j] = this.pixeles[i][j]; 
-            }
-        }
-        this.pixeles = new double[this.alto][this.ancho];
+       // this.pixeles = new double[this.alto][this.ancho];
         this.pixeles = imagenDrch; // esto si queremos girar la imagen original ( creo que no)
     }
 
     
 
     public void girarHorizontal()  {
-        double horizontal[][] = new double[this.alto][this.ancho];       
+        double horizontal[][] = new double[this.alto][this.ancho];  
+        int k;
         for (int i = 0; i < this.alto; i++) {
-            for (int j = this.ancho; j > 0; j--) {
-                horizontal[i][j] = this.pixeles[i][j];
+            k = 0;
+            for (int j = this.ancho -1; j > 0; j--) {
+                horizontal[i][k] = this.pixeles[i][j];
+                k++;
             }
         }
         //this.pixeles = new double[this.alto][this.ancho];
@@ -116,9 +113,9 @@ public class PGMFileDouble {
         double[][] vertical = new double[this.alto][this.ancho];
         
         int k = 0, n = 0;
-        for (int i = this.alto; i >0; i--) {
+        for (int i = this.alto -1; i > 0; i--) {
             n = 0;
-            for (int j = this.ancho; j > 0; j--) {
+            for (int j = this.ancho -1; j > 0; j--) {
                 vertical[k][n] = this.pixeles[i][j];
                 n++;
             }
@@ -128,7 +125,7 @@ public class PGMFileDouble {
         this.pixeles = vertical;
     }
 
-    public void filtroNegativo() {          
+    public void filtroNegativo() {   //PREGUNTAR A JAIME        
         for (int i = 0; i < alto; i++) {
              for (int j = 0; j < ancho; j++) {
                 this.pixeles[i][j] = this.blancoAbs -pixeles[i][j];
@@ -157,11 +154,12 @@ public class PGMFileDouble {
     public void imprimir(){
         for (int i = 0; i < this.alto; i++) {
             for (int j = 0; j < this.ancho; j++) {
-                System.out.print(pixeles[i][j]+" ");
+                System.out.print(this.pixeles[i][j]+" ");
             }
             System.out.println();
         }
     }
+
     public String getRuta() {
         return ruta;
     }
@@ -201,5 +199,13 @@ public class PGMFileDouble {
     public void setPixeles(double[][] pixeles) {
         this.pixeles = pixeles;
     }
-      
+
+    public String getLineaImg() {
+        return lineaImg;
+    }
+
+    public void setLineaImg(String lineaImg) {
+        this.lineaImg = lineaImg;
+    }
+    
 }

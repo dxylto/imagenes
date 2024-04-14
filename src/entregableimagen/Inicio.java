@@ -36,16 +36,8 @@ public class Inicio {
             catch (Exception e) {
                 System.out.println("Se ha producido un error inesperado al abrir el fichero");
             }
-        }while(!cargaCorrecta); /*
-            pixel = linea.split(" ");
-//                for (int j = 0; j < this.ancho; j++) {
-//                    this.pixeles[i][j] = Double.parseDouble(scFile.nextLine());
-//                }
-                while( j++ < pasar.length){
-                    for (int i = 0; i < pixel.length; i++) {
-                        pasar[j] = Double.parseDouble(pixel[i]);
-                    }
-                }*/
+        }while(!cargaCorrecta); 
+            
         menu(pgm);
     }
     public static void menu(PGMFileDouble pgm) throws IOException { //arreglar menu
