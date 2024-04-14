@@ -95,18 +95,15 @@ public class PGMFileDouble {
                 horizontal[i][k] = this.pixeles[i][j];
                 k++;
             }
-        }
-        
+        }        
         this.pixeles = horizontal;
     }
-
     public void girarVertical() {
         double[][] vertical = new double[this.alto][this.ancho];
         int k = 0, n = 0;
         for (int i = this.alto -1; i >= 0; i--) {
             n = 0;
-            for (int j = this.ancho -1 ; j >= 0; j--) {
-                
+            for (int j = this.ancho -1 ; j >= 0; j--) {                
                 vertical[k][n] = this.pixeles[i][j];
                 n++;
             }

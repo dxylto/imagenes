@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+//NICOLA  BODNAR YUZYFISHYN 
+//DAYLTO BRAVO TINTE
 package entregableimagen;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -54,15 +55,15 @@ public class Inicio {
                     pgm.girarVertical();
                 } else if (opcion.equals("5")) {
                     pgm.filtroNegativo();
-                } else if (opcion.equals("6")) {
-                    pgm.filtroCaja();
-                } else if (opcion.equals("7")){
+                } 
+                else if (opcion.equals("7")){
                     pgm.imprimir();
                 }
                 else if (opcion.equalsIgnoreCase("G")) {
                     pgm.guardarFichero();
                 }               
             }
+
         } while (!opcion.equalsIgnoreCase("S"));
     }
 
